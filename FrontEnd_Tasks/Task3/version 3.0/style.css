@@ -1,0 +1,40 @@
+.background {
+    /* Style for "Background" */
+    width: 1300px;
+    height: 850px;
+    background-image: url("img/Background.png");
+}
+.extraSpace {
+    height: 27px;
+}
+.extraSpace2 {
+    padding-left: 722px;
+    padding-top: 27px;
+}
+.textOne {
+    /* Style for "JOIN OUR N" */
+    width: 300px;
+    height: 16px;
+    color: #b2d235;
+    font-family: "Gill Sans";
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    /* Text style for "JOIN OUR N" */
+    letter-spacing: 1.27px;
+    position: absolute;
+    top: 94px;
+    right: 560px;
+}
+.btnCss {
+    /* Style for "Send Butto" */
+    position: absolute;
+    top: 90px;
+    left: 1230px;
+    width: 57px;
+    height: 30px;
+    background-color: #bcbec0;
+}
+.extraSpace3 {
+    height: 23px;   
+}
