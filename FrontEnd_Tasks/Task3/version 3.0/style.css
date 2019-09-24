@@ -23,8 +23,8 @@
     /* Text style for "JOIN OUR N" */
     letter-spacing: 1.27px;
     position: absolute;
-    top: 94px;
-    right: 560px;
+    top: 95px;
+    left: 770px;
 }
 .btnCss {
     /* Style for "Send Butto" */
@@ -37,4 +37,140 @@
 }
 .extraSpace3 {
     height: 23px;   
+}
+.positionIMG {
+    position: absolute;
+    top: 110px;
+    left: 80px;
+}
+.positionAssessIT {
+    position: absolute;
+    top: 190px;
+    left: 65px;
+}
+.positionCNTICN {
+    position: absolute;
+    top: 180px;
+    left: 1140px;
+}
+.positionINI {
+    position: absolute;
+    top: 180px;
+    left: 918px;
+}
+.positionSI {
+    position: absolute;
+    top: 180px;
+    left: 690px;
+}
+.positionAI {
+    position: absolute;
+    top: 180px;
+    left: 465px;
+}
+.lblAbout {
+    width: 77px;
+    height: 16px;
+    color: #ffffff;
+    font-family: "Gill Sans";
+    font-size: 19px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1.57px;
+    position: absolute;
+    top: 265px;
+    left: 460px;
+}
+.lblServices {
+    width: 77px;
+    height: 16px;
+    color: #ffffff;
+    font-family: "Gill Sans";
+    font-size: 19px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1.57px;
+    position: absolute;
+    top: 265px;
+    left: 670px;
+}
+.lblIN {
+    width: 77px;
+    height: 16px;
+    color: #ffffff;
+    font-family: "Gill Sans";
+    font-size: 19px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1.57px;
+    position: absolute;
+    text-align: center;
+    top: 265px;
+    left: 855px;
+}
+.lblCNT {
+    width: 77px;
+    height: 16px;
+    color: #ffffff;
+    font-family: "Gill Sans";
+    font-size: 19px;
+    font-weight: 400;
+    text-transform: uppercase;
+     Text style for "ABOUT" 
+    letter-spacing: 1.57px;
+    position: absolute;
+    text-align: center;
+    top: 265px;
+    left: 1125px;
+}
+.extraSpace4 {
+    padding-top: 90px;
+    padding-left: 445px;
+    padding-bottom: 81px;
+    padding-right: 157px;
+}
+.theToThat {
+    /* Style for "The first" */
+    width: 697px;
+    height: 462px;
+    color: #ffffff;
+/*    font-family: "Helvetica Neue - Condensed Bold";*/
+    font-family: sans-serif;
+    font-size: 45px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.theToThat2 {
+    /* Text style for "The first" */
+    letter-spacing: 0.31px;
+    line-height: 62.67px;    
+}
+.automation {
+    /* Text style for "automation" */
+    color: #b2d235;
+    font-size: 100px;
+    font-family: sans-serif;
+    letter-spacing: 0.6px;
+    line-height: 102.07px;    
+}
+.magniFY {
+    /* Text style for "magnify th" */
+    color: #b2d235;
+    font-family: sans-serif;
+    font-size: 50px;
+    letter-spacing: 0.33px;
+    line-height: 62.67px;    
+}
+.copyRight {
+    /* Style for "© Assess I" */
+    width: 171px;
+    height: 12px;
+    color: #bec0c2;
+    font-family: "Helvetica Neue";
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 29.34px;    
+    position: absolute;
+    top: 800px;
+    left: 650px;
 }
