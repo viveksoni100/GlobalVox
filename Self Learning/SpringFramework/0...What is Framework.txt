@@ -1,0 +1,1 @@
+it provides structure and common patterns to make the process building applications easier

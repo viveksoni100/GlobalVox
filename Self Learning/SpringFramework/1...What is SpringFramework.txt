@@ -1,0 +1,8 @@
+An open source framework
+
+An alternative to heavier enterprise Java technologies
+ie. EJB / Enterprise Java Beans ano alternate chhe Spring
+
+Spring addresses the complexity of enterprise application development
+
+in short we can say Spring simplifies Java development

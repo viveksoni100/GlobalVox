@@ -1,0 +1,17 @@
+Spring allows lightweight and minimally invasive development with POJOs
+
+POJO?
+an object of a simple Java class that is not bound by framework specific restrictions
+eg. doesn not extend or implement classes and interfaces required by EJB framework
+but POJO is not bound by such restrictions
+
+NOTE: POJO works equally well in spring as well as non-spring applications
+
+Spring allows light weight servlet containers(Tomcat) instead of heavy application servers(JBoss)
+Therefore, Spring applications can be developed and deployed even on computers with limited CPU resources and memory
+
+Spring allows to use AOP / Aspect Oriented Programming which complements OOP by providing another way of thinking about program structure.
+OOP : key unit of modularity is the CLASS
+AOP : key unit of modularity is the ASPECT
+
+Spring allows Loose coupling through Dependency Injection and interface orientation
