@@ -1,0 +1,26 @@
+There are three types of Hibernate object states.
+
+1. Transient Object State:
+An object which is not associated with hibernate session and does not represent a row in the database is considered as transient. It will be garbage collected if no other object refers to it.
+
+An object that is created for the first time using the new() operator is in transient state. When the object is in transient sate then it will not contain any identifier (primary key value). You have to use save, persist or saveOrUpdate methods to persist the transient object.
+
+Employee emp = new Employee();
+emp.setName("Ravi Raj");
+// here emp object is in a transient state
+
+2. Persistent Object State:
+An object that is associated with the hibernate session is called as Persistent object. When the object is in persistent state, then it represent one row of the database and consists of an identifier value.You can make a transient instance persistent by associating it with a Session.
+
+Long id = (Long) session.save(emp);
+// emp object is now in a persistent state
+
+3. Detached Object State:
+Object which is just removed from hibernate session is called as detached object.The sate of the detached object is called as detached state.
+
+When the object is in detached sate then it contain identity but you can’t do persistence operation with that identity.
+
+Any changes made to the detached objects are not saved to the database. The detached object can be reattached to the new session and save to the database using update, saveOrUpdate and merge methods.
+
+session.close();
+//object in detached state

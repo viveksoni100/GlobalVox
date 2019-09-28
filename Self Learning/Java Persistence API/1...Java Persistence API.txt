@@ -1,0 +1,11 @@
+The Java Persistence API (JPA), in 2019 renamed to Jakarta Persistence[1], is a Java application programming interface specification that describes the management of relational data in applications using Java Platform, Standard Edition and Java Platform, Enterprise Edition/Jakarta EE.
+
+Persistence in this context covers three areas:
+
+the API itself, defined in the javax.persistence package
+the Java Persistence Query Language (JPQL)
+object/relational metadata
+
+As a specification, the Java Persistence API is concerned with persistence, which loosely means any mechanism by which Java objects outlive the application process that created them. Not all Java objects need to be persisted, but most applications persist key business objects. The JPA specification lets you define which objects should be persisted, and how those objects should be persisted in your Java applications.
+
+By itself, JPA is not a tool or framework; rather, it defines a set of concepts that can be implemented by any tool or framework. While JPA's object-relational mapping (ORM) model was originally based on Hibernate, it has since evolved. Likewise, while JPA was originally intended for use with relational/SQL databases, some JPA implementations have been extended for use with NoSQL datastores.

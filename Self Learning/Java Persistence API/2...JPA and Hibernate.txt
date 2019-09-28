@@ -1,0 +1,5 @@
+Because of their intertwined history, Hibernate and JPA are frequently conflated. However, like the Java Servlet specification, JPA has spawned many compatible tools and frameworks; Hibernate is just one of them.
+
+Developed by Gavin King and released in early 2002, Hibernate is an ORM library for Java. King developed Hibernate as an alternative to entity beans for persistence. The framework was so popular, and so needed at the time, that many of its ideas were adopted and codified in the first JPA specification.
+
+Today, Hibernate ORM is one of the most mature JPA implementations, and still a popular option for ORM in Java. Hibernate ORM 5.3.8 (the current version as of this writing) implements JPA 2.2. Additionally, Hibernate's family of tools has expanded to include popular tools like Hibernate Search, Hibernate Validator, and Hibernate OGM, which supports domain-model persistence for NoSQL.

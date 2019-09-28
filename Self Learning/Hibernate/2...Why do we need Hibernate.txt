@@ -1,0 +1,17 @@
+Need of Hibernate Framework
+
+Hibernate is used to overcome the of limitations of JDBC like:
+
+1...JDBC code is dependent upon the Database software being used i.e. our persistence logic is dependent, because of using JDBC. Here we are inserting a record into Employee table but our query is Database software-dependent i.e. Here we are using MySQL. But if we change our Database then this query won’t work.
+
+2...If working with JDBC, changing of Database in middle of the project is very costly.
+
+3...JDBC code is not portable code across the multiple database software.
+
+4...In JDBC, Exception handling is mandatory. Here We can see that we are handling lots of Exception for connection.
+
+5...While working with JDBC, There is no support Object-level relationship.
+
+6...In JDBC, there occurs a Boilerplate problem i.e. For each and every project we have to write the below code. That increases the code length and reduce the readability.
+
+To overcome the above problems we use ORM tool i.e. nothing but Hibernate framework. By using Hibernate we can avoid all the above problems and we can enjoy some additional set of functionalities.
