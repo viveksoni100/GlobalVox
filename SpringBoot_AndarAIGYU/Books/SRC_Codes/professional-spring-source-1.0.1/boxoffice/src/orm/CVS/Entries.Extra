@@ -1,0 +1,13 @@
+/Booking.hbm.xml////*///
+/Genre.hbm.xml////*///
+/Performance.hbm.xml////*///
+/PriceBand.hbm.xml////*///
+/PriceStructure.hbm.xml////*///
+/Purchase.hbm.xml////*///
+/Seat.hbm.xml////*///
+/SeatClass.hbm.xml////*///
+/SeatStatus.hbm.xml////*///
+/SeatingPlan.hbm.xml////*///
+/Show.hbm.xml////*///
+/ehcache.xml////*///
+/queries.hbm.xml////*///

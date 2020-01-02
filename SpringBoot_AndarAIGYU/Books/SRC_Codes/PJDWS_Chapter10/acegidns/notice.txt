@@ -1,0 +1,25 @@
+   ======================================================================
+   == NOTICE file corresponding to section 4(d) of the Apache License, ==
+   == Version 2.0, in this case for Acegi DNS                          ==
+   ======================================================================
+
+   This product includes software developed by the Spring Framework
+   Project (http://www.springframework.org).
+
+   This product includes software developed by the
+   Acegi Security System for Spring Project 
+   (http://acegisecurity.sourceforge.net).
+
+   The end-user documentation included with a redistribution, if any,
+   must include the following acknowledgement:
+
+     "This product includes software developed by Acegi Technology
+      Pty Limited (http://www.acegi.com.au)."
+
+   Alternately, this acknowledgement may appear in the software itself,
+   if and wherever such third-party acknowledgements normally appear.
+
+   The names "Acegi", "Acegi Security System", "Acegi Security System
+   for Spring" and "Acegi DNS" must not be used to endorse or promote
+   products derived from this software without prior written permission.
+   For written permission, please contact ben.alex@acegi.com.au.

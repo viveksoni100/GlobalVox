@@ -1,0 +1,533 @@
+WARNINGS
+WARNING: Start label "left" in association relationship from Seat to Seat is treated as a comment.
+
+This design uses the following entities:
+ 1. Booking
+ 2. Genre
+ 3. Performance
+ 4. Price_Band
+ 5. Price_Structure
+ 6. Purchase
+ 7. Registered_User
+ 8. Seat
+ 9. Seat_Class
+ 10. Seat_Plan_Seat
+ 11. Seat_Status
+ 12. Seating_Plan
+ 13. Show
+
+========================================================================
+
+ENTITY 1. Booking
+-----------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - date_made DATETIME
+ - reserved_until DATETIME
+ - seat_count INTEGER NOT NULL
+ - price DECIMAL(15, 2) NOT NULL
+
+The specified primary key of this entity is id.
+
+This entity is on the "many" side of this one-to-many relationship with
+another entity. The relationship will become a foreign key in Booking.
+  - An aggregation relationship with entity Purchase, which means that
+    there is a notion of "whole-part" between Booking (the parts) and
+    Purchase (the whole). Each value in Booking is related to zero or
+    one value in Purchase, and each value in Purchase is related to many
+    values in Booking. Values in Booking are existence independent of
+    Purchase; deleting a value in Purchase does not automatically delete
+    any values in Booking. Values in Booking can exist on their own;
+    they don't need a matching value in Purchase.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Seat_Status. In this
+    relationship, each value in Seat_Status is related to zero or one
+    value in Booking, and each value in Booking is related to many
+    values in Seat_Status. Values in Seat_Status are existence
+    independent of Booking; deleting a value in Booking does not
+    automatically delete any values in Seat_Status.
+
+========================================================================
+
+ENTITY 2. Genre
+---------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - name VARCHAR(50)
+
+The specified primary key of this entity is id.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Show. In this relationship,
+    each value in Show is related to zero or one value in Genre, and
+    each value in Genre is related to many values in Show. Values in
+    Show are existence independent of Genre; deleting a value in Genre
+    does not automatically delete any values in Show.
+
+========================================================================
+
+ENTITY 3. Performance
+---------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - date_and_time DATETIME
+
+The specified primary key of this entity is id.
+
+This entity is on the "many" side of these one-to-many relationships
+with other entities. Each relationship will become a foreign key in
+Performance.
+  - An association relationship with entity Price_Structure. In this
+    relationship, each value in Performance is related to zero or one
+    value in Price_Structure, and each value in Price_Structure is
+    related to many values in Performance. Values in Performance are
+    existence independent of Price_Structure; deleting a value in
+    Price_Structure does not automatically delete any values in
+    Performance.
+  - An association relationship with entity Show. In this relationship,
+    each value in Performance is related to zero or one value in Show,
+    and each value in Show is related to many values in Performance.
+    Values in Performance are existence independent of Show; deleting a
+    value in Show does not automatically delete any values in
+    Performance.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - A composition relationship with entity Seat_Status, which means that
+    there is a notion of "whole-part" between Seat_Status (the parts)
+    and Performance (the whole). Each value in Seat_Status is related to
+    exactly one value in Performance, and each value in Performance is
+    related to many values in Seat_Status. Values in Seat_Status are
+    existence dependent of Performance; deleting a value in Performance
+    automatically deletes any matching values in Seat_Status.
+    Furthermore, values in Seat_Status cannot exist on their own; they
+    must each have a matching value in Performance. The primary key in
+    Performance is automatically copied to Seat_Status.
+
+========================================================================
+
+ENTITY 4. Price_Band
+--------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - price DECIMAL(15, 2)
+
+The specified primary key of this entity is id.
+
+This entity is on the "many" side of these one-to-many relationships
+with other entities. Each relationship will become a foreign key in
+Price_Band.
+  - An association relationship with entity Price_Structure. In this
+    relationship, each value in Price_Band is related to zero or one
+    value in Price_Structure, and each value in Price_Structure is
+    related to many values in Price_Band. Values in Price_Band are
+    existence independent of Price_Structure; deleting a value in
+    Price_Structure does not automatically delete any values in
+    Price_Band.
+  - An association relationship with entity Seat_Class. In this
+    relationship, each value in Price_Band is related to zero or one
+    value in Seat_Class, and each value in Seat_Class is related to many
+    values in Price_Band. Values in Price_Band are existence independent
+    of Seat_Class; deleting a value in Seat_Class does not automatically
+    delete any values in Price_Band.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Seat_Status. In this
+    relationship, each value in Seat_Status is related to zero or one
+    value in Price_Band, and each value in Price_Band is related to many
+    values in Seat_Status. Values in Seat_Status are existence
+    independent of Price_Band; deleting a value in Price_Band does not
+    automatically delete any values in Seat_Status.
+
+========================================================================
+
+ENTITY 5. Price_Structure
+-------------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - name VARCHAR(80)
+
+The specified primary key of this entity is id.
+
+This entity is on the "one" side of these one-to-many relationships with
+other entities. Each entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Performance. In this
+    relationship, each value in Performance is related to zero or one
+    value in Price_Structure, and each value in Price_Structure is
+    related to many values in Performance. Values in Performance are
+    existence independent of Price_Structure; deleting a value in
+    Price_Structure does not automatically delete any values in
+    Performance.
+  - An association relationship with entity Price_Band. In this
+    relationship, each value in Price_Band is related to zero or one
+    value in Price_Structure, and each value in Price_Structure is
+    related to many values in Price_Band. Values in Price_Band are
+    existence independent of Price_Structure; deleting a value in
+    Price_Structure does not automatically delete any values in
+    Price_Band.
+
+========================================================================
+
+ENTITY 6. Purchase
+------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - authorization_code VARCHAR(32) NOT NULL
+ - encrypted_card_number VARCHAR(19) NOT NULL
+ - customer_name VARCHAR(100) NOT NULL
+ - collected_by_customer BOOLEAN NOT NULL
+ - purchase_date DATETIME NOT NULL
+ - email VARCHAR(100) NOT NULL
+ - card_country VARCHAR(40)
+ - card_street VARCHAR(40) NOT NULL
+ - card_city VARCHAR(40) NOT NULL
+ - card_postcode VARCHAR(10) NOT NULL
+ - delivery_country VARCHAR(40)
+ - delivery_city VARCHAR(40)
+ - delivery_street VARCHAR(40)
+ - delivery_postcode VARCHAR(10)
+
+The specified primary key of this entity is id.
+
+This entity is on the "many" side of this one-to-many relationship with
+another entity. The relationship will become a foreign key in Purchase.
+  - An association relationship with entity Registered_User. In this
+    relationship, each value in Purchase is related to zero or one value
+    in Registered_User, and each value in Registered_User is related to
+    many values in Purchase. Values in Purchase are existence
+    independent of Registered_User; deleting a value in Registered_User
+    does not automatically delete any values in Purchase.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - An aggregation relationship with entity Booking, which means that
+    there is a notion of "whole-part" between Booking (the parts) and
+    Purchase (the whole). Each value in Booking is related to zero or
+    one value in Purchase, and each value in Purchase is related to many
+    values in Booking. Values in Booking are existence independent of
+    Purchase; deleting a value in Purchase does not automatically delete
+    any values in Booking. Values in Booking can exist on their own;
+    they don't need a matching value in Purchase.
+
+========================================================================
+
+ENTITY 7. Registered_User
+-------------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - email VARCHAR(100) NOT NULL
+ - password VARCHAR(40) NOT NULL
+ - name VARCHAR(100) NOT NULL
+ - card_country VARCHAR(40)
+ - card_city VARCHAR(40) NOT NULL
+ - card_street VARCHAR(40) NOT NULL
+ - card_postcode VARCHAR(10) NOT NULL
+ - delivery_country VARCHAR(40)
+ - delivery_city VARCHAR(40)
+ - delivery_street VARCHAR(40)
+ - delivery_postcode VARCHAR(10)
+
+The specified primary key of this entity is id.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Purchase. In this
+    relationship, each value in Purchase is related to zero or one value
+    in Registered_User, and each value in Registered_User is related to
+    many values in Purchase. Values in Purchase are existence
+    independent of Registered_User; deleting a value in Registered_User
+    does not automatically delete any values in Purchase.
+
+========================================================================
+
+ENTITY 8. Seat
+--------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - name VARCHAR NOT NULL
+
+The specified primary key of this entity is id.
+
+This entity is on the "many" side of these one-to-many relationships
+with other entities. Each relationship will become a foreign key in
+Seat.
+  - An association relationship with entity Seat. In this relationship,
+    each value in Seat is related to zero or one value in Seat, and each
+    value in Seat is related to many values in Seat. Values in Seat are
+    existence independent of Seat; deleting a value in Seat does not
+    automatically delete any values in Seat.
+  - An association relationship with entity Seat. In this relationship,
+    each value in Seat is related to zero or one value in Seat, and each
+    value in Seat is related to many values in Seat. Values in Seat are
+    existence independent of Seat; deleting a value in Seat does not
+    automatically delete any values in Seat.
+
+This entity is on the "one" side of these one-to-many relationships with
+other entities. Each entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Seat. In this relationship,
+    each value in Seat is related to zero or one value in Seat, and each
+    value in Seat is related to many values in Seat. Values in Seat are
+    existence independent of Seat; deleting a value in Seat does not
+    automatically delete any values in Seat.
+  - An association relationship with entity Seat. In this relationship,
+    each value in Seat is related to zero or one value in Seat, and each
+    value in Seat is related to many values in Seat. Values in Seat are
+    existence independent of Seat; deleting a value in Seat does not
+    automatically delete any values in Seat.
+  - A composition relationship with entity Seat_Plan_Seat, which means
+    that there is a notion of "whole-part" between Seat_Plan_Seat (the
+    parts) and Seat (the whole). Each value in Seat_Plan_Seat is related
+    to exactly one value in Seat, and each value in Seat is related to
+    many values in Seat_Plan_Seat. Values in Seat_Plan_Seat are
+    existence dependent of Seat; deleting a value in Seat automatically
+    deletes any matching values in Seat_Plan_Seat. Furthermore, values
+    in Seat_Plan_Seat cannot exist on their own; they must each have a
+    matching value in Seat. The primary key in Seat is automatically
+    copied to Seat_Plan_Seat.
+  - A composition relationship with entity Seat_Status, which means that
+    there is a notion of "whole-part" between Seat_Status (the parts)
+    and Seat (the whole). Each value in Seat_Status is related to
+    exactly one value in Seat, and each value in Seat is related to many
+    values in Seat_Status. Values in Seat_Status are existence dependent
+    of Seat; deleting a value in Seat automatically deletes any matching
+    values in Seat_Status. Furthermore, values in Seat_Status cannot
+    exist on their own; they must each have a matching value in Seat.
+    The primary key in Seat is automatically copied to Seat_Status.
+
+========================================================================
+
+ENTITY 9. Seat_Class
+--------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - code VARCHAR(5)
+ - description VARCHAR(200)
+
+The specified primary key of this entity is id.
+
+This entity is on the "one" side of these one-to-many relationships with
+other entities. Each entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Price_Band. In this
+    relationship, each value in Price_Band is related to zero or one
+    value in Seat_Class, and each value in Seat_Class is related to many
+    values in Price_Band. Values in Price_Band are existence independent
+    of Seat_Class; deleting a value in Seat_Class does not automatically
+    delete any values in Price_Band.
+  - A composition relationship with entity Seat_Plan_Seat, which means
+    that there is a notion of "whole-part" between Seat_Plan_Seat (the
+    parts) and Seat_Class (the whole). Each value in Seat_Plan_Seat is
+    related to exactly one value in Seat_Class, and each value in
+    Seat_Class is related to many values in Seat_Plan_Seat. Values in
+    Seat_Plan_Seat are existence dependent of Seat_Class; deleting a
+    value in Seat_Class automatically deletes any matching values in
+    Seat_Plan_Seat. Furthermore, values in Seat_Plan_Seat cannot exist
+    on their own; they must each have a matching value in Seat_Class.
+    The primary key in Seat_Class is automatically copied to
+    Seat_Plan_Seat.
+
+========================================================================
+
+ENTITY 10. Seat_Plan_Seat
+-------------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+
+The primary key of Seat is copied to this entity because of the
+composition relationship between Seat_Plan_Seat and Seat (each
+Seat_Plan_Seat value is "part of" a value in Seat). The primary key of
+Seat_Class is copied to this entity (and combined with the existing
+primary key) because of the composition relationship between
+Seat_Plan_Seat and Seat_Class (each Seat_Plan_Seat value is "part of" a
+value in Seat_Class). The primary key of Seating_Plan is copied to this
+entity (and combined with the existing primary key) because of the
+composition relationship between Seat_Plan_Seat and Seating_Plan (each
+Seat_Plan_Seat value is "part of" a value in Seating_Plan).
+
+This entity is on the "many" side of these one-to-many relationships
+with other entities. Each relationship will become a foreign key in
+Seat_Plan_Seat.
+  - A composition relationship with entity Seat, which means that there
+    is a notion of "whole-part" between Seat_Plan_Seat (the parts) and
+    Seat (the whole). Each value in Seat_Plan_Seat is related to exactly
+    one value in Seat, and each value in Seat is related to many values
+    in Seat_Plan_Seat. Values in Seat_Plan_Seat are existence dependent
+    of Seat; deleting a value in Seat automatically deletes any matching
+    values in Seat_Plan_Seat. Furthermore, values in Seat_Plan_Seat
+    cannot exist on their own; they must each have a matching value in
+    Seat. The primary key in Seat is automatically copied to
+    Seat_Plan_Seat.
+  - A composition relationship with entity Seat_Class, which means that
+    there is a notion of "whole-part" between Seat_Plan_Seat (the parts)
+    and Seat_Class (the whole). Each value in Seat_Plan_Seat is related
+    to exactly one value in Seat_Class, and each value in Seat_Class is
+    related to many values in Seat_Plan_Seat. Values in Seat_Plan_Seat
+    are existence dependent of Seat_Class; deleting a value in
+    Seat_Class automatically deletes any matching values in
+    Seat_Plan_Seat. Furthermore, values in Seat_Plan_Seat cannot exist
+    on their own; they must each have a matching value in Seat_Class.
+    The primary key in Seat_Class is automatically copied to
+    Seat_Plan_Seat.
+  - A composition relationship with entity Seating_Plan, which means
+    that there is a notion of "whole-part" between Seat_Plan_Seat (the
+    parts) and Seating_Plan (the whole). Each value in Seat_Plan_Seat is
+    related to exactly one value in Seating_Plan, and each value in
+    Seating_Plan is related to many values in Seat_Plan_Seat. Values in
+    Seat_Plan_Seat are existence dependent of Seating_Plan; deleting a
+    value in Seating_Plan automatically deletes any matching values in
+    Seat_Plan_Seat. Furthermore, values in Seat_Plan_Seat cannot exist
+    on their own; they must each have a matching value in Seating_Plan.
+    The primary key in Seating_Plan is automatically copied to
+    Seat_Plan_Seat.
+
+========================================================================
+
+ENTITY 11. Seat_Status
+----------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+
+The primary key of Performance is copied to this entity because of the
+composition relationship between Seat_Status and Performance (each
+Seat_Status value is "part of" a value in Performance). The primary key
+of Seat is copied to this entity (and combined with the existing primary
+key) because of the composition relationship between Seat_Status and
+Seat (each Seat_Status value is "part of" a value in Seat).
+
+This entity is on the "many" side of these one-to-many relationships
+with other entities. Each relationship will become a foreign key in
+Seat_Status.
+  - An association relationship with entity Booking. In this
+    relationship, each value in Seat_Status is related to zero or one
+    value in Booking, and each value in Booking is related to many
+    values in Seat_Status. Values in Seat_Status are existence
+    independent of Booking; deleting a value in Booking does not
+    automatically delete any values in Seat_Status.
+  - A composition relationship with entity Performance, which means that
+    there is a notion of "whole-part" between Seat_Status (the parts)
+    and Performance (the whole). Each value in Seat_Status is related to
+    exactly one value in Performance, and each value in Performance is
+    related to many values in Seat_Status. Values in Seat_Status are
+    existence dependent of Performance; deleting a value in Performance
+    automatically deletes any matching values in Seat_Status.
+    Furthermore, values in Seat_Status cannot exist on their own; they
+    must each have a matching value in Performance. The primary key in
+    Performance is automatically copied to Seat_Status.
+  - An association relationship with entity Price_Band. In this
+    relationship, each value in Seat_Status is related to zero or one
+    value in Price_Band, and each value in Price_Band is related to many
+    values in Seat_Status. Values in Seat_Status are existence
+    independent of Price_Band; deleting a value in Price_Band does not
+    automatically delete any values in Seat_Status.
+  - A composition relationship with entity Seat, which means that there
+    is a notion of "whole-part" between Seat_Status (the parts) and Seat
+    (the whole). Each value in Seat_Status is related to exactly one
+    value in Seat, and each value in Seat is related to many values in
+    Seat_Status. Values in Seat_Status are existence dependent of Seat;
+    deleting a value in Seat automatically deletes any matching values
+    in Seat_Status. Furthermore, values in Seat_Status cannot exist on
+    their own; they must each have a matching value in Seat. The primary
+    key in Seat is automatically copied to Seat_Status.
+
+========================================================================
+
+ENTITY 12. Seating_Plan
+-----------------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - name VARCHAR(50)
+
+The specified primary key of this entity is id.
+
+This entity is on the "one" side of these one-to-many relationships with
+other entities. Each entity will use this entity's primary key as a
+foreign key column.
+  - A composition relationship with entity Seat_Plan_Seat, which means
+    that there is a notion of "whole-part" between Seat_Plan_Seat (the
+    parts) and Seating_Plan (the whole). Each value in Seat_Plan_Seat is
+    related to exactly one value in Seating_Plan, and each value in
+    Seating_Plan is related to many values in Seat_Plan_Seat. Values in
+    Seat_Plan_Seat are existence dependent of Seating_Plan; deleting a
+    value in Seating_Plan automatically deletes any matching values in
+    Seat_Plan_Seat. Furthermore, values in Seat_Plan_Seat cannot exist
+    on their own; they must each have a matching value in Seating_Plan.
+    The primary key in Seating_Plan is automatically copied to
+    Seat_Plan_Seat.
+  - An association relationship with entity Show. In this relationship,
+    each value in Show is related to zero or one value in Seating_Plan,
+    and each value in Seating_Plan is related to many values in Show.
+    Values in Show are existence independent of Seating_Plan; deleting a
+    value in Seating_Plan does not automatically delete any values in
+    Show.
+
+========================================================================
+
+ENTITY 13. Show
+---------------
+
+Attributes of this entity, not including foreign keys, inherited
+attributes, or automatically copied primary keys:
+ - id INTEGER NOT NULL
+ - name VARCHAR(50)
+
+The specified primary key of this entity is id.
+
+This entity is on the "many" side of these one-to-many relationships
+with other entities. Each relationship will become a foreign key in
+Show.
+  - An association relationship with entity Genre. In this relationship,
+    each value in Show is related to zero or one value in Genre, and
+    each value in Genre is related to many values in Show. Values in
+    Show are existence independent of Genre; deleting a value in Genre
+    does not automatically delete any values in Show.
+  - An association relationship with entity Seating_Plan. In this
+    relationship, each value in Show is related to zero or one value in
+    Seating_Plan, and each value in Seating_Plan is related to many
+    values in Show. Values in Show are existence independent of
+    Seating_Plan; deleting a value in Seating_Plan does not
+    automatically delete any values in Show.
+
+This entity is on the "one" side of this one-to-many relationship with
+another entity. The other entity will use this entity's primary key as a
+foreign key column.
+  - An association relationship with entity Performance. In this
+    relationship, each value in Performance is related to zero or one
+    value in Show, and each value in Show is related to many values in
+    Performance. Values in Performance are existence independent of
+    Show; deleting a value in Show does not automatically delete any
+    values in Performance.
+

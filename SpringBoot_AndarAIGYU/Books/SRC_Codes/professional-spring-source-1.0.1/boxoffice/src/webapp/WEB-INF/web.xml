@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	
+	<!--
+	 - Specifies the context location for the root application context of
+	 - this web app. The value mentioned here is the default of the
+	 - ContextLoaderListener, but for clarity we're including it anyway.
+	-->
+	<context-param>
+		<param-name>contextConfigLocations</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml			
+		</param-value>
+	</context-param>
+	
+	<!--
+     - Loads the root application context of this web app at startup,
+     - by default from "/WEB-INF/applicationContext.xml" (see above).
+     -
+     - Use WebApplicationContextUtils.getWebApplicationContext(servletContext)
+     - to access it anywhere in the web application, outside of the framework.
+     - Note that this will only work in Servlet 2.4 environments, or Servlet 2.3
+     - environments that follow the 2.4 initializaiton order (most of them).
+     - Alternately, ContextLoaderServlet can be used for older environments.
+    -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!--
+	 - Declaration of the dispatcher servlet, resulting in a WebApplicationContext
+	 - being loaded from /WEB-INF/boxoffice-servlet.xml. The parent of this
+	 - application context is the one loaded by the ContextLoaderListener
+	 - (in this case /WEB-INF/applicationContext.xml).
+	 - You can tweak the name of the WebApplicationContext to be laoded by setting
+	 - one or more context parameters (explained in more detail in the MVC chapter).
+	-->
+	<servlet>
+		<servlet-name>ticket</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ticket</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.htm</welcome-file>
+	</welcome-file-list>
+
+    <!-- Taglibs -->
+
+    <taglib>
+        <taglib-uri>http://www.springframework.org/tags</taglib-uri>
+        <taglib-location>/WEB-INF/tld/spring.tld</taglib-location>
+    </taglib>
+
+</web-app>

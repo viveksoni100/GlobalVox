@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="collectionsExample" class="ch02.sample7.CollectionsBean">
+    
+    <property name="theList">
+      <list>
+        <value>red</value>
+        <value>red</value>
+        <value>blue</value>
+        <ref local="curDate"/>
+        <list>
+          <value>one</value>
+          <value>two</value>
+          <value>three</value>
+        </list>
+      </list>
+    </property>
+
+    <property name="theSet">
+      <set>
+        <value>red</value>
+        <value>red</value>
+        <value>blue</value>
+      </set>
+    </property>
+
+    <property name="theMap">
+      <map>
+        <entry key="left">
+          <value>right</value>
+        </entry>
+        <entry key="up">
+          <value>down</value>
+        </entry>
+        <entry key="date">
+          <ref local="curDate"/>
+        </entry>
+      </map>
+    </property>
+
+    <property name="theProperties">
+      <props>
+        <prop key="left">right</prop>
+        <prop key="up">down</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <bean id="curDate" class="java.util.GregorianCalendar"/>
+  
+</beans>

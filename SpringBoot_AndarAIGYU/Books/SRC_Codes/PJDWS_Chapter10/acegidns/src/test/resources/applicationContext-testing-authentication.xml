@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Application context containing authentication beans.
+  -
+  - Only used by unit tests.
+  -
+  - $Id: applicationContext-testing-authentication.xml,v 1.1 2004/11/18 06:55:20 administrator Exp $
+  -->
+
+<beans>
+
+   <!-- ======================== AUTHENTICATION ======================= -->
+
+   <bean id="authenticationManager" class="net.sf.acegisecurity.providers.ProviderManager">
+      <property name="providers">
+         <list>
+            <ref local="daoAuthenticationProvider"/>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="jdbcDaoImpl" class="net.sf.acegisecurity.providers.dao.jdbc.JdbcDaoImpl">
+      <property name="dataSource"><ref bean="dataSource"/></property>
+   </bean>
+
+   <bean id="passwordEncoder" class="net.sf.acegisecurity.providers.encoding.Md5PasswordEncoder"/>
+
+   <bean id="daoAuthenticationProvider" class="net.sf.acegisecurity.providers.dao.DaoAuthenticationProvider">
+      <property name="authenticationDao"><ref local="jdbcDaoImpl"/></property>
+      <property name="passwordEncoder"><ref local="passwordEncoder"/></property>
+   </bean>
+
+   <!-- Automatically receives AuthenticationEvent messages from DaoAuthenticationProvider -->
+   <bean id="loggerListener" class="net.sf.acegisecurity.providers.dao.event.LoggerListener"/>
+
+</beans>

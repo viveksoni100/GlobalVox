@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.springframework.prospring.ticket.domain.PriceBand" table="Price_Band" lazy="false">
+
+        <id name="id" type="long">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+
+        <property name="price" type="big_decimal">
+            <column name="price"/>
+        </property>
+
+        <many-to-one name="seatClass"
+                     class="org.springframework.prospring.ticket.domain.SeatClass"
+                     column="Seat_Class_id"/>
+
+    </class>
+
+</hibernate-mapping>

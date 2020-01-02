@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.springframework.prospring.ticket.domain.Booking" table="Booking" lazy="false">
+        
+        <id name="id" type="long">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+
+        <property name="dateMade" type="timestamp">
+            <column name="date_made"/>
+        </property>
+
+        <property name="reservedUntil" type="timestamp">
+            <column name="reserved_until"/>
+        </property>
+
+        <property name="price" type="big_decimal">
+            <column name="price"/>
+        </property>
+
+        <property name="seatCount" type="integer">
+            <column name="seat_count"/>
+        </property>
+
+        <many-to-one name="purchase"
+                     class="org.springframework.prospring.ticket.domain.Purchase"
+                     column="Purchase_id"
+                     unique="true"
+                     cascade="save-update" 
+                     not-null="false"/>
+
+    </class>
+
+</hibernate-mapping>

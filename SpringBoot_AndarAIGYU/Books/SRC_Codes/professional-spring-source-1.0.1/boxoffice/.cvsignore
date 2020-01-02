@@ -1,0 +1,8 @@
+target
+.settings
+spy.log
+mytest.log
+*.iws
+*.ipr
+*.iml
+dist

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--$Id: xportal.application,v 1.5 2003/08/19 22:18:54 colin Exp $-->
+<!DOCTYPE application PUBLIC 
+  "-//Apache Software Foundation//Tapestry Specification 3.0//EN" 
+  "http://jakarta.apache.org/tapestry/dtd/Tapestry_3_0.dtd">
+
+<application
+	name="JPetstore"
+	engine-class="org.springframework.samples.jpetstore.web.BaseEngine">
+   
+  <property name="org.apache.tapestry.global-class" value="java.util.HashMap"/>
+  <property name="org.apache.tapestry.visit-class" value="java.util.HashMap"/>
+
+  <library id="contrib" specification-path="/org/apache/tapestry/contrib/Contrib.library"/>
+  	
+</application>

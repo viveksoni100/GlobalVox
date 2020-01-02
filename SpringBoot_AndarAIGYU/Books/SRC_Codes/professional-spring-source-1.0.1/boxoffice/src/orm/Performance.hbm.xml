@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.springframework.prospring.ticket.domain.Performance" table="Performance" lazy="false">
+
+        <cache usage="read-only"/>
+
+        <id name="id" type="long">
+            <column name="id" not-null="true"/>
+            <generator class="identity"/>
+        </id>
+
+        <property name="dateAndTime" type="timestamp">
+            <column name="date_and_time"/>
+        </property>
+
+        <many-to-one name="show"
+                     class="org.springframework.prospring.ticket.domain.Show"
+                     column="Show_id"/>
+
+        <many-to-one name="priceStructure"
+                     class="org.springframework.prospring.ticket.domain.PriceStructure"
+                     column="Price_Structure_id"/>
+
+    </class>
+
+</hibernate-mapping>

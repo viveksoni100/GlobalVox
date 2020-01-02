@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- The JNDI DataSource for J2EE environments
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+      <property name="jndiName"><value>java:comp/env/jdbc/beerdb</value></property>
+    </bean>
+    -->
+
+    <!-- The DBCP DataSource
+    <bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+      <property name="driverClassName"><value>${jdbc.driverClassName}</value></property>
+      <property name="url"><value>${jdbc.url}</value></property>
+      <property name="username"><value>${jdbc.username}</value></property>
+      <property name="password"><value>${jdbc.password}</value></property>
+    </bean>
+    -->
+
+    <!-- The P6Spy DataSource -->
+    <bean id="dataSource" class="com.p6spy.engine.spy.P6DataSource">
+        <constructor-arg>
+            <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+                <property name="driverClassName">
+                    <value>${jdbc.driverClassName}</value>
+                </property>
+                <property name="url">
+                    <value>${jdbc.url}</value>
+                </property>
+                <property name="username">
+                    <value>${jdbc.username}</value>
+                </property>
+                <property name="password">
+                    <value>${jdbc.password}</value>
+                </property>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- Hibernate Session Factory Bean -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="mappingResources">
+            <list>
+                <value>Booking.hbm.xml</value>
+                <value>Genre.hbm.xml</value>
+                <value>Performance.hbm.xml</value>
+                <value>PriceBand.hbm.xml</value>
+                <value>PriceStructure.hbm.xml</value>
+                <value>Purchase.hbm.xml</value>
+                <value>Seat.hbm.xml</value>
+                <value>SeatClass.hbm.xml</value>
+                <value>SeatStatus.hbm.xml</value>
+                <value>SeatingPlan.hbm.xml</value>
+                <value>Show.hbm.xml</value>
+                <value>queries.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+        <property name="dataSource">
+            <ref local="dataSource"/>
+        </property>
+    </bean>
+
+    <!-- The transactionmanager to use for regular non JTA datasource -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="dataSource">
+            <ref local="dataSource"/>
+        </property>
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+</beans>

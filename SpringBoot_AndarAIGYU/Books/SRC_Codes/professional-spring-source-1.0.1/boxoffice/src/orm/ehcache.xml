@@ -1,0 +1,37 @@
+<ehcache>
+	<defaultCache
+		maxElementsInMemory="1000"
+		eternal="false"
+		timeToIdleSeconds="120"
+		timeToLiveSeconds="120"
+		overflowToDisk="false"
+	/>
+	<cache name="org.springframework.prospring.ticket.domain.Genre"
+		maxElementsInMemory="100"
+		eternal="true"
+		timeToIdleSeconds="0"
+		timeToLiveSeconds="0"
+		overflowToDisk="false"
+	/>
+	<cache name="org.springframework.prospring.ticket.domain.Show"
+		maxElementsInMemory="100"
+		eternal="true"
+		timeToIdleSeconds="0"
+		timeToLiveSeconds="0"
+		overflowToDisk="false"
+	/>
+	<cache name="org.springframework.prospring.ticket.domain.Performance"
+		maxElementsInMemory="100"
+		eternal="false"
+		timeToIdleSeconds="120"
+		timeToLiveSeconds="120"
+		overflowToDisk="false"
+	/>
+	<cache name="org.springframework.prospring.ticket.domain.Seat"
+		maxElementsInMemory="500"
+		eternal="false"
+		timeToIdleSeconds="120"
+		timeToLiveSeconds="120"
+		overflowToDisk="false"
+	/>
+</ehcache>

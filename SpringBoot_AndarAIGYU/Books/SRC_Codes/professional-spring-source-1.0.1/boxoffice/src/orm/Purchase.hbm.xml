@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.springframework.prospring.ticket.domain.Purchase" table="Purchase" lazy="false">
+        
+        <id name="id" type="long">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+
+        <property name="email" type="string">
+            <column name="email"/>
+        </property>
+
+        <property name="purchaseDate" type="timestamp">
+            <column name="purchase_date"/>
+        </property>
+
+        <property name="paymentAuthorizationCode" type="string">
+            <column name="authorization_code"/>
+        </property>
+
+        <property name="customerName" type="string">
+            <column name="customer_name"/>
+        </property>
+
+        <property name="encryptedCardNumber" type="string">
+            <column name="encrypted_card_number"/>
+        </property>
+
+        <property name="userCollected" type="boolean">
+            <column name="collected_by_customer"/>
+        </property>
+
+        <component name="billingAddress" class="org.springframework.prospring.ticket.domain.Address">
+
+            <property name="country" type="string">
+                <column name="card_country"/>
+            </property>
+
+            <property name="city" type="string">
+                <column name="card_city"/>
+            </property>
+
+            <property name="street" type="string">
+                <column name="card_street"/>
+            </property>
+
+            <property name="postcode" type="string">
+                <column name="card_postcode"/>
+            </property>
+
+        </component>
+
+        <component name="deliveryAddress" class="org.springframework.prospring.ticket.domain.Address">
+
+            <property name="country" type="string">
+                <column name="delivery_country"/>
+            </property>
+
+            <property name="city" type="string">
+                <column name="delivery_city"/>
+            </property>
+
+            <property name="street" type="string">
+                <column name="delivery_street"/>
+            </property>
+
+            <property name="postcode" type="string">
+                <column name="delivery_postcode"/>
+            </property>
+
+        </component>
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE page-specification PUBLIC 
+  "-//Apache Software Foundation//Tapestry Specification 3.0//EN" 
+  "http://jakarta.apache.org/tapestry/dtd/Tapestry_3_0.dtd">
+	
+<page-specification class="org.springframework.samples.jpetstore.web.pages.ItemView">
+  
+  <property-specification name="error" type="java.lang.String"/>
+  <property-specification name="item" type="org.springframework.samples.jpetstore.domain.Item" persistent="yes"/>
+  <property-specification name="itemIdFilter" type="java.lang.String"/>
+  <property-specification name="numberFormat" type="java.text.DecimalFormat">
+    new java.text.DecimalFormat("$#,##0.00")
+  </property-specification>
+  <property-specification name="petStore"
+                          type="org.springframework.samples.jpetstore.domain.logic.PetStoreFacade">
+    global.appContext.getBean("petStore")
+  </property-specification>
+   
+</page-specification>

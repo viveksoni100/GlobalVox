@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+    <!-- Configurer that replaces ${...} placeholders with values from properties files -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- DAO -->
+    <bean id="dao" class="org.springframework.prospring.ticket.dao.hibernate.HibernateBoxOfficeDao">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- Business Objects -->
+    <bean id="boxOfficeTarget" class="org.springframework.prospring.ticket.service.BoxOfficeImpl">
+        <property name="boxOfficeDao">
+            <ref bean="dao"/>
+        </property>
+        <property name="paymentProcessor">
+            <bean class="org.springframework.prospring.ticket.service.payment.DummyPaymentProcessor"/>
+        </property>
+    </bean>
+
+    <bean id="eventsCalendarTarget" class="org.springframework.prospring.ticket.service.EventsCalendarImpl">
+        <property name="boxOfficeDao">
+            <ref bean="dao"/>
+        </property>
+    </bean>
+
+    <!-- Transactional proxy for the primary business objects -->
+    <bean id="boxOffice"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <ref local="boxOfficeTarget"/>
+        </property>
+        <property name="proxyTargetClass">
+            <value>false</value>
+        </property>
+        <property name="proxyInterfaces">
+            <list>
+                <value>org.springframework.prospring.ticket.service.BoxOffice</value>
+            </list>
+        </property>
+        <property name="interceptorNames">
+            <value>transactionInterceptor</value>
+        </property>
+    </bean>
+    <!-- Transactional proxy for the primary business objects -->
+    <bean id="eventsCalendar"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <ref local="eventsCalendarTarget"/>
+        </property>
+        <property name="proxyTargetClass">
+            <value>false</value>
+        </property>
+        <property name="proxyInterfaces">
+            <list>
+                <value>org.springframework.prospring.ticket.service.EventsCalendar</value>
+            </list>
+        </property>
+        <property name="interceptorNames">
+            <value>transactionInterceptor</value>
+        </property>
+    </bean>
+
+    <!-- TransactionInterceptor -->
+    <bean id="transactionInterceptor"
+        class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
+                <prop key="cancel*">PROPAGATION_REQUIRED</prop>
+                <prop key="allocate*">PROPAGATION_REQUIRED,ISOLATION_SERIALIZABLE,timeout_60,-ApplicationException</prop>
+                <prop key="purchase*">PROPAGATION_REQUIRED,ISOLATION_SERIALIZABLE,timeout_60,-ApplicationException</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- The JNDI DataSource for J2EE environments -->
+    <!--
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+      <property name="jndiName"><value>java:comp/env/jdbc/beerdb</value></property>
+    </bean>
+    -->
+    <!-- The DBCP DataSource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName">
+            <value>${jdbc.driverClassName}</value>
+        </property>
+        <property name="url">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="username">
+            <value>${jdbc.username}</value>
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+    </bean>
+
+    <!-- Hibernate Session Factory Bean -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="mappingResources">
+            <list>
+                <value>Booking.hbm.xml</value>
+                <value>Genre.hbm.xml</value>
+                <value>Performance.hbm.xml</value>
+                <value>PriceBand.hbm.xml</value>
+                <value>PriceStructure.hbm.xml</value>
+                <value>Purchase.hbm.xml</value>
+                <value>Seat.hbm.xml</value>
+                <value>SeatClass.hbm.xml</value>
+                <value>SeatStatus.hbm.xml</value>
+                <value>SeatingPlan.hbm.xml</value>
+                <value>Show.hbm.xml</value>
+                <value>queries.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+            </props>
+        </property>
+        <property name="dataSource">
+            <ref local="dataSource"/>
+        </property>
+    </bean>
+
+    <!-- The transactionmanager to use for regular non JTA datasource -->
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="dataSource">
+            <ref local="dataSource"/>
+        </property>
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+</beans>

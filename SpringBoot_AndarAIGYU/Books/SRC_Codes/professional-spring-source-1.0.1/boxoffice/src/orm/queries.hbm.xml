@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+  - Named Queries for the Hibernate implementation of the Ticket sample application
+  - for Professional Java Development with the Spring Framework.
+  -->
+
+<hibernate-mapping auto-import="true" package="org.springframework.prospring.ticket.domain">
+
+    <query name="currentGenres">
+        <![CDATA[
+            from Genre g
+            where size(g.shows) > 0
+            order by g.name
+        ]]>
+    </query>
+
+    <!--
+        In general, a good practice would be to put such complex queries
+        in the database as views
+    -->
+    <sql-query name="getPerformancesWithAvailability">
+        <return-scalar column="seatCount" type="integer"/>
+        <return alias="pb" class="PriceBand"/>
+        <return alias="p" class="Performance"/>
+        <![CDATA[
+            select 	{p.*},
+                    {pb.*},
+                    seatCount
+            from 	Performance p,
+                    Price_Band pb,
+                    (
+                        select	ss.Performance_id as pId,
+                                ss.Price_Band_id as pbId,
+                                sum(case when (b.id is null or (b.reserved_until < :date and b.Purchase_id is null)) then 1 else 0 end) as seatCount
+                        from	Seat_Status ss left outer join Booking b on ss.Booking_id = b.id
+                        group by ss.Performance_id , ss.Price_Band_id
+                    ) as availability
+            where 	p.id = pId
+                and pb.id = pbId
+                and p.Show_id = :showId
+        ]]>
+    </sql-query>
+
+    <query name="getCostOfSeats">
+        <![CDATA[
+            select sum(pb.price)
+            from SeatStatus ss left join ss.priceBand pb
+            where ss.performance = :performance
+            and ss.seat in ( :seats )
+        ]]>
+    </query>
+
+    <query name="getSeatStatusForSeatsInPerformance">
+        <![CDATA[
+            from SeatStatus
+            where Performance_id = :perfId
+            and Seat_id in ( :ids )
+        ]]>
+    </query>
+
+    <query name="getSeatStatusForBooking">
+        <![CDATA[
+            from SeatStatus ss
+            where ss.booking = :booking
+        ]]>
+    </query>
+
+    <query name="getSeatsForBooking">
+        <![CDATA[
+            select s
+            from SeatStatus ss left join ss.seat s
+            where ss.booking = :booking
+        ]]>
+    </query>
+
+    <query name="getPerformanceForBooking">
+        <![CDATA[
+            select distinct ss.performance
+            from SeatStatus ss
+            where ss.booking = :booking
+        ]]>
+    </query>
+
+    <query name="getAvailableSeats">
+        <![CDATA[
+            select s
+            from Seat s, Performance p, SeatStatus ss left join ss.booking b
+            where ss.seat = s
+              and ss.performance = p
+              and p = :performance
+              and ss.priceBand.seatClass = :seatClass
+              and (b is null or (b.reservedUntil < :date and b.purchase is null))
+        ]]>
+    </query>
+
+    <query name="getAvailableSeatsCount">
+        <![CDATA[
+            select count(s)
+            from Seat s, Performance p, SeatStatus ss left join ss.booking b
+            where ss.seat = s
+              and ss.performance = p
+              and p = :performance
+              and ss.priceBand.seatClass = :seatClass
+              and (b is null or (b.reservedUntil < :date and b.purchase is null))
+        ]]>
+    </query>
+
+
+</hibernate-mapping>

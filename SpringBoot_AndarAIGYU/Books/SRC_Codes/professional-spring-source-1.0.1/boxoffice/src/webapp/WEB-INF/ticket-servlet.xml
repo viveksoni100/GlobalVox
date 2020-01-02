@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- Defining the properties files for external configurations of the application context -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/general.properties</value>
+                <value>/WEB-INF/mail.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Defining the resource bundles to use -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>error-messages</value>
+                <value>ui-messages</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- The view resolver definition. Use to resolve view names to actual jsp files -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/jsp/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.JstlView</value>
+        </property>
+    </bean>
+
+    <!-- Mapping exception names that are thrown by the controller to view names -->
+    <bean id="exceptionMapping" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <map>
+                <entry key="RequestedSeatNotAvailableException">
+                    <value>seatsGone</value>
+                </entry>
+            </map>
+        </property>
+        <property name="defaultErrorView" value="error"/>
+    </bean>
+
+    <!-- Controllers -->
+
+    <!--
+        For readability reasons we don't use the SimpleUrlHandlerMapping although recommended in the book, instead
+        we use the default BeanNameUrlHandlerMapping. To see how to use SimpleUrlHandlerMapping please refer to
+        p. 443 in the book.
+    -->
+
+    <bean name="/listShows.html" class="org.springframework.prospring.ticket.web.ListShowsController">
+        <property name="viewName">
+            <value>showList</value>
+        </property>
+        <property name="eventsCalendar">
+            <ref bean="eventsCalendar"/>
+        </property>
+    </bean>
+
+    <bean name="/displayShow.html" class="org.springframework.prospring.ticket.web.DisplayShowController">
+        <property name="viewName">
+            <value>displayShow</value>
+        </property>
+        <property name="boxOffice">
+            <ref bean="boxOffice"/>
+        </property>
+        <property name="eventsCalendar">
+            <ref bean="eventsCalendar"/>
+        </property>
+        <property name="showInfosLocation">
+            <value>${showInfoLocation}</value>
+        </property>
+        <property name="seatingPlansLocation">
+            <value>${seatingPlanLocation}</value>
+        </property>
+    </bean>
+
+    <!-- 
+        Here is a good place to introduce the new xml bean context format introduced in Spring 1.2.
+        The new format enables you to use the "value" and "ref" attributes instead of the sub-elements. This
+        makes the application context definition much cleaner and readable. You can still use the sub-elements
+        as before in special cases where using attributes is not appropriate (complex values for example).
+    -->
+    <bean name="/reserveSeats.html" class="org.springframework.prospring.ticket.web.BookSeatsController">
+        <property name="boxOffice" ref="boxOffice" />
+        <property name="eventsCalendar" ref="eventsCalendar"/>
+        <property name="commandName" value="reservationRequest"/>
+        <property name="sessionForm" value="true"/>
+        <property name="formView" value="selectSeats"/>
+        <property name="successView" value="showReservation.html"/>
+        <property name="defaultNumberOfSeatsSelected" value="${defaultNumberOfSeatsSelected}"/>
+        <property name="maximumNumberOfSeats" value="${maximumNumberOfSeatsAllowed}"/>
+        <property name="minutesReservationWillBeValid" value="${numberOfMinutesToReserveSeats}"/>
+        <property name="bookingFee" value="${bookingFee}"/>
+    </bean>
+
+    <bean name="/showReservation.html" class="org.springframework.prospring.ticket.web.ShowReservationController">
+        <property name="viewName">
+            <value>showReservation</value>
+        </property>
+    </bean>
+
+    <bean name="/payment.html" class="org.springframework.prospring.ticket.web.PaymentFormController">
+        <property name="boxOffice">
+            <ref bean="boxOffice"/>
+        </property>
+        <property name="commandName">
+            <value>purchaseRequest</value>
+        </property>
+        <property name="sessionForm">
+            <value>true</value>
+        </property>
+        <property name="formView">
+            <value>paymentForm</value>
+        </property>
+        <property name="successView">
+            <value>confirmation</value>
+        </property>
+        <property name="seatsGoneViewName">
+            <value>seatsGone</value>
+        </property>
+        <property name="confirmationSender">
+            <ref bean="confirmationSender"/>
+        </property>
+        <property name="validator">
+            <bean class="org.springframework.prospring.ticket.web.PurchaseRequestValidator"/>
+        </property>
+    </bean>
+
+
+    <!-- comment this bean definition out when enabling email purchase confirmations -->
+    <bean id="confirmationSender" class="org.springframework.prospring.ticket.web.confirmation.DummyMailPurchaseConfirmationSender"/>
+
+    <!--
+        un-comment to enable mail purchase confirmation.
+
+        Note: mail.properties needs to be updated in order for this to work
+
+    <bean id="confirmationSender" class="org.springframework.prospring.ticket.web.confirmation.SimpleMailPurchaseConfirmationSender">
+        <property name="mailSender">
+            <ref bean="mailSender"/>
+        </property>
+        <property name="senderEmail">
+            <value>${systemEmail}</value>
+        </property>
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+            <value>${smtp.host}</value>
+        </property>
+    </bean>
+
+     -->
+
+</beans>

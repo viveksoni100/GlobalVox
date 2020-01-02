@@ -1,0 +1,57 @@
+<html jwcid="$content$">
+  <body jwcid="@Border">
+
+  <h1>Item View</h1><hr/>
+
+  <span jwcid="@ShowError"/><span jwcid="@ShowValidationError" delegate="ognl:valDelegate"/>
+
+  <form jwcid="@Form" listener="ognl:listeners.formSubmit" delegate="ognl:valDelegate">
+    Enter a valid item id to view its details: 
+    <input jwcid="@TextField" value="ognl:itemIdFilter" size="20" maxlength="20"/>
+    <br/>
+    <input type="submit" jwcid="@Submit" value="Show Item" style="background: #cccccc none;"/>
+  </form>
+
+  <span jwcid="@Conditional" condition="ognl:item != null">
+
+    <table align="center" bgcolor="#008800" cellspacing="2" cellpadding="3" border="0" width="60%">
+      <tr bgcolor="#FFFF88">
+        <td bgcolor="#FFFFFF">
+          <span jwcid="@Insert" value="ognl:transposeDescription(item.product.description)" raw="true"/>
+        </td>
+      </tr>
+      <tr bgcolor="#FFFF88">
+        <td width="100%" bgcolor="#cccccc">
+          <b><span jwcid="@Insert" value="ognl:item.itemId"/></b>
+        </td>
+      </tr>
+      <tr bgcolor="#FFFF88">
+        <td>
+          <b><font size="4">
+          <span jwcid="@Insert" value="ognl:item.attribute1"/>
+          <span jwcid="@Insert" value="ognl:item.attribute2"/>
+          <span jwcid="@Insert" value="ognl:item.attribute3"/>
+          <span jwcid="@Insert" value="ognl:item.attribute4"/>
+          <span jwcid="@Insert" value="ognl:item.attribute5"/>
+          <span jwcid="@Insert" value="ognl:item.product.name"/>
+          </font></b>
+        </td></tr>
+      <tr bgcolor="#FFFF88"><td>
+        <font size="3"><i><span jwcid="@Insert" value="ognl:item.product.name"/></i></font>
+      </td></tr>
+      <tr bgcolor="#FFFF88"><td>
+        <span jwcid="@Conditional" condition="ognl:item.quantity lte 0">
+         <font color="RED" size="2"><i>Back ordered.</i></font>
+        </span>
+        <span jwcid="@Conditional" condition="ognl:item.quantity > 0">
+         <font size="2"><span jwcid="@Insert" value="ognl:item.quantity"/> in stock.</font>
+        </span>
+      </td></tr>
+      <tr bgcolor="#FFFF88"><td>
+        <span jwcid="@Insert" value="ognl:item.listPrice" format="ognl:numberFormat"/>
+      </td></tr>
+    </table>
+  </span>
+
+  </body>
+</html>

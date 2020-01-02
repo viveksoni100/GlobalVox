@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Application context containing business beans.
+  -
+  - $Id: applicationContext-common-business.xml,v 1.1 2004/11/18 06:55:17 administrator Exp $
+  -->
+
+<beans>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>org.hsqldb.jdbcDriver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:hsqldb:mem:acegidns</value>
+        </property>
+        <property name="username">
+            <value>sa</value>
+        </property>
+        <property name="password">
+            <value></value>
+        </property>
+    </bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource"><ref local="dataSource"/></property>
+	</bean>
+	
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    	<property name="transactionManager"><ref bean="transactionManager"/></property>
+		<property name="transactionAttributeSource">
+			<value>
+				com.acegitech.dns.domain.DomainManagerImpl.*=PROPAGATION_REQUIRED
+				com.acegitech.dns.domain.DomainManager.*=PROPAGATION_REQUIRED
+			</value>
+		</property>
+	</bean>
+
+   <bean id="dataSourcePopulator" class="com.acegitech.dns.domain.DataSourcePopulator">
+	   <property name="dataSource"><ref local="dataSource"/></property>
+   </bean>
+   
+   <bean id="domainDao" class="com.acegitech.dns.domain.DomainDaoSpring">
+	   <property name="dataSource"><ref local="dataSource"/></property>
+   </bean>
+
+   <bean id="domainManager" class="com.acegitech.dns.domain.DomainManagerImpl">
+	   <property name="domainDao"><ref local="domainDao"/></property>
+	   <property name="basicAclExtendedDao"><ref bean="basicAclExtendedDao"/></property>
+   </bean>
+
+   <bean id="autoproxy" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+   <bean id="methodSecurityAdvisor" class="net.sf.acegisecurity.intercept.method.aopalliance.MethodDefinitionSourceAdvisor" autowire="constructor"/>
+
+   <bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor" autowire="constructor"/>
+
+</beans>

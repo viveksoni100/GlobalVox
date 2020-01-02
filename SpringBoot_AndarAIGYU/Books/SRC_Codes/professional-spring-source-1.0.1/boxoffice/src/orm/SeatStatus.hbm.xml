@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.springframework.prospring.ticket.domain.SeatStatus" table="Seat_Status" lazy="false">
+
+        <composite-id>
+
+            <key-many-to-one name="seat">
+                <column name="Seat_id"/>
+            </key-many-to-one>
+
+            <key-many-to-one name="performance">
+                <column name="Performance_id"/>
+            </key-many-to-one>
+
+        </composite-id>
+
+        <many-to-one name="priceBand"
+                     class="org.springframework.prospring.ticket.domain.PriceBand"
+                     column="Price_Band_id"/>
+
+        <many-to-one name="booking"
+                     class="org.springframework.prospring.ticket.domain.Booking"
+                     column="Booking_id"
+                     not-null="false"
+                     not-found="ignore"
+                     lazy="false"/>
+
+    </class>
+
+</hibernate-mapping>

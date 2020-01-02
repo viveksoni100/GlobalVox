@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.springframework.prospring.ticket.domain.Genre" table="Genre">
+
+        <cache usage="read-only"/>
+
+        <id name="id" column="id" type="long">
+            <generator class="identity"/>
+        </id>
+
+        <property name="name" type="string">
+            <column name="name"/>
+        </property>
+
+        <set name="shows" lazy="false" inverse="true" order-by="name">
+            <key column="Genre_id"/>
+            <one-to-many class="org.springframework.prospring.ticket.domain.Show"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

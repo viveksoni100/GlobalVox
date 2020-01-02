@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="bean1" class="ch02.sample5.TestBean"/>
+  
+  <bean name="bean2" class="ch02.sample5.TestBean"/>
+  
+  <bean name="/myservlet/myaction" class="ch02.sample5.TestBean"/>
+
+  <bean id="component1-dataSource" name="component2-dataSource,component3-dataSource" class="ch02.sample5.TestBean"/>
+  
+</beans>

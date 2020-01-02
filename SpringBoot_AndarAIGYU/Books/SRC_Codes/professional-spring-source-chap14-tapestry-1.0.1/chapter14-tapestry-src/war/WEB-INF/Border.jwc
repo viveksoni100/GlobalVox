@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: Border.jwc,v 1.11 2003/06/01 05:05:00 hlship Exp $ -->
+<!DOCTYPE component-specification PUBLIC 
+  "-//Apache Software Foundation//Tapestry Specification 3.0//EN" 
+  "http://jakarta.apache.org/tapestry/dtd/Tapestry_3_0.dtd">
+  
+<component-specification 
+	class="org.apache.tapestry.BaseComponent"
+	allow-informal-parameters="no">
+
+  <!-- this is how you would add a stylesheet as an asset. Really all web
+       styling should be put in a stylesheet -->
+  <!--context-asset name="stylesheet" path="css/s1.css"/-->
+
+</component-specification>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry output="target/classes" kind="src" path="src/java"/>
+	<classpathentry output="target/test-classes" kind="src" path="src/test"/>
+	<classpathentry output="target/classes" kind="src" path="src/orm"/>
+	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.5H3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/asm.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/asm-attrs.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cglib-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-attributes-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections-2.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-dbcp.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-pool.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/easymock.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ehcache-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jakarta-oro-2.0.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jdbc2_0-stdext.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsp-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mail.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/p6spy.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/path-to-fileset.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jstl-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/postgresql-8.0-312.jdbc2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/standard-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hsqldb.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-3.1.10-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-1.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-mock-1.2.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="target/test-classes"/>
+</classpath>

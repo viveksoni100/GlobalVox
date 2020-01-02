@@ -1,0 +1,21 @@
+<!-- $Id:  $ -->
+<span jwcid="$content$">
+	<span jwcid="@Conditional" condition="ognl:page.error">
+		<div class="error">
+		        <br/>
+			<table width="95%" align="center" cellpadding="0" cellspacing="1" border="0" class="contentBlock">
+			        <tr><th class="yellow" align="left">Oops! There was an error in your submission.</th></tr>
+				<tr>
+					<td height="23">
+						<img src="images/error-icon.png" width="18" height="18"
+							alt="Error" border="0" vspace="0" align="left"/>
+						<span class="error" jwcid="@Insert" value="ognl:page.error">Error
+							Message</span>
+					</td>
+				</tr>
+			</table>
+			<br />
+		</div>
+	</span>
+</span>
+

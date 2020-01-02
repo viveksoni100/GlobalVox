@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="weatherService" class="ch02.sample6.WeatherServiceImpl">
+    <constructor-arg>
+      <ref local="weatherDao"/>
+    </constructor-arg>
+    <property name="maxRetryAttempts"><value>2</value></property>
+  </bean>
+
+  <bean id="weatherDao" class="ch02.sample6.StaticDataWeatherDaoImpl">
+  </bean>
+
+</beans>

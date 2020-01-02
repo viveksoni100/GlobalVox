@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <bean id="singleton1" class="ch02.sample5.TestBean"/>
+  
+  <bean id="singleton2" singleton="true" class="ch02.sample5.TestBean"/>
+  
+  <bean id="prototype1" singleton="false" class="ch02.sample5.TestBean"/>
+
+</beans>

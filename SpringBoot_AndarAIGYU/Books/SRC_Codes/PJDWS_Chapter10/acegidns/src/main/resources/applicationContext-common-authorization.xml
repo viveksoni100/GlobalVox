@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Application context containing authentication beans.
+  -
+  - $Id: applicationContext-common-authorization.xml,v 1.1 2004/11/18 06:55:16 administrator Exp $
+  -->
+
+<beans>
+
+   <!-- ~~~~~~~~~~~~~~~~~~ "BEFORE INVOCATION" AUTHORIZATION DEFINITIONS ~~~~~~~~~~~~~~~~ -->
+
+   <!-- ACL permission masks used by this application -->
+   <bean id="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+      <property name="staticField"><value>net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION</value></property>
+   </bean>
+   <bean id="net.sf.acegisecurity.acl.basic.SimpleAclEntry.READ" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+      <property name="staticField"><value>net.sf.acegisecurity.acl.basic.SimpleAclEntry.READ</value></property>
+   </bean>
+   <bean id="net.sf.acegisecurity.acl.basic.SimpleAclEntry.WRITE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+      <property name="staticField"><value>net.sf.acegisecurity.acl.basic.SimpleAclEntry.WRITE</value></property>
+   </bean>
+   <bean id="net.sf.acegisecurity.acl.basic.SimpleAclEntry.CREATE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+      <property name="staticField"><value>net.sf.acegisecurity.acl.basic.SimpleAclEntry.CREATE</value></property>
+   </bean>
+   <bean id="net.sf.acegisecurity.acl.basic.SimpleAclEntry.DELETE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+      <property name="staticField"><value>net.sf.acegisecurity.acl.basic.SimpleAclEntry.DELETE</value></property>
+   </bean>
+
+
+   <!-- An access decision voter that reads ROLE_* configuration settings -->
+   <bean id="roleVoter" class="net.sf.acegisecurity.vote.RoleVoter"/>
+
+   <!-- An access decision voter that reads ACL_DOMAIN_ADMIN configuration settings -->
+   <bean id="aclDomainAdminVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_DOMAIN_ADMIN</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.Domain</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_DOMAIN_READ configuration settings -->
+   <bean id="aclDomainReadVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_DOMAIN_READ</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.Domain</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.READ"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_DOMAIN_WRITE configuration settings -->
+   <bean id="aclDomainWriteVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_DOMAIN_WRITE</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.Domain</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.WRITE"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_DOMAIN_CREATE configuration settings -->
+   <!-- NB: This voter looks INSIDE the Domain at the parent, and votes on parentDomain -->
+   <bean id="aclDomainCreateVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_DOMAIN_CREATE</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.Domain</value></property>
+      <property name="internalMethod"><value>getParent</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.CREATE"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_DOMAIN_DELETE configuration settings -->
+   <bean id="aclDomainDeleteVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_DOMAIN_DELETE</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.Domain</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.DELETE"/>
+		</list>
+      </property>
+   </bean>
+   
+
+   <!-- An access decision voter that reads ACL_RESOURCE_RECORD_ADMIN configuration settings -->
+   <bean id="aclResourceRecordAdminVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_RESOURCE_RECORD_ADMIN</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.ResourceRecord</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_RESOURCE_RECORD_READ configuration settings -->
+   <bean id="aclResourceRecordReadVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_RESOURCE_RECORD_READ</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.ResourceRecord</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.READ"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_RESOURCE_RECORD_WRITE configuration settings -->
+   <bean id="aclResourceRecordWriteVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_RESOURCE_RECORD_WRITE</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.ResourceRecord</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.WRITE"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_RESOURCE_RECORD_CREATE configuration settings -->
+   <!-- NB: This voter looks INSIDE the ResourceRecord at the getNestedDomain(), and votes on it-->
+   <bean id="aclResourceRecordCreateVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_RESOURCE_RECORD_CREATE</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.ResourceRecord</value></property>
+      <property name="internalMethod"><value>getNestedDomain</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.CREATE"/>
+		</list>
+      </property>
+   </bean>
+
+   <!-- An access decision voter that reads ACL_RESOURCE_RECORD_DELETE configuration settings -->
+   <bean id="aclResourceRecordDeleteVoter" class="net.sf.acegisecurity.vote.BasicAclEntryVoter">
+      <property name="processConfigAttribute"><value>ACL_RESOURCE_RECORD_DELETE</value></property>
+      <property name="processDomainObjectClass"><value>com.acegitech.dns.domain.ResourceRecord</value></property>
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.DELETE"/>
+		</list>
+      </property>
+   </bean>
+
+   
+
+   <!-- An access decision manager used by the business objects -->
+   <bean id="businessAccessDecisionManager" class="net.sf.acegisecurity.vote.AffirmativeBased">
+      <property name="allowIfAllAbstainDecisions"><value>false</value></property>
+      <property name="decisionVoters">
+         <list>
+            <ref local="roleVoter"/>
+            <ref local="aclDomainAdminVoter"/>
+            <ref local="aclDomainReadVoter"/>
+            <ref local="aclDomainWriteVoter"/>
+            <ref local="aclDomainCreateVoter"/>
+            <ref local="aclDomainDeleteVoter"/>
+            <ref local="aclResourceRecordAdminVoter"/>
+            <ref local="aclResourceRecordReadVoter"/>
+            <ref local="aclResourceRecordWriteVoter"/>
+            <ref local="aclResourceRecordCreateVoter"/>
+            <ref local="aclResourceRecordDeleteVoter"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- ========= ACCESS CONTROL LIST LOOKUP MANAGER DEFINITIONS ========= -->
+
+   <bean id="aclManager" class="net.sf.acegisecurity.acl.AclProviderManager">
+      <property name="providers">
+         <list>
+            <ref local="basicAclProvider"/>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="basicAclProvider" class="net.sf.acegisecurity.acl.basic.BasicAclProvider">
+      <property name="basicAclDao"><ref local="basicAclExtendedDao"/></property>
+   </bean>
+
+   <bean id="basicAclExtendedDao" class="net.sf.acegisecurity.acl.basic.jdbc.JdbcExtendedDaoImpl">
+      <property name="dataSource"><ref bean="dataSource"/></property>
+   </bean>
+
+   <!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+
+   <bean id="afterInvocationManager" class="net.sf.acegisecurity.afterinvocation.AfterInvocationProviderManager">
+      <property name="providers">
+         <list>
+            <ref local="afterAclRead"/>
+            <ref local="afterAclCollectionRead"/>
+         </list>
+      </property>
+   </bean>
+   
+   <!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
+   <bean id="afterAclCollectionRead" class="net.sf.acegisecurity.afterinvocation.BasicAclEntryAfterInvocationCollectionFilteringProvider">
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.READ"/>
+		</list>
+      </property>
+   </bean>
+   
+   <!-- Processes AFTER_ACL_READ configuration settings -->
+   <bean id="afterAclRead" class="net.sf.acegisecurity.afterinvocation.BasicAclEntryAfterInvocationProvider">
+      <property name="aclManager"><ref local="aclManager"/></property>
+      <property name="requirePermission">
+		<list>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"/>
+		    <ref local="net.sf.acegisecurity.acl.basic.SimpleAclEntry.READ"/>
+		</list>
+      </property>
+   </bean>
+
+
+   <!-- ================= METHOD INVOCATION AUTHORIZATION ==================== -->
+
+   <!-- 
+       A standard principal needs ROLE_USER.
+	   New Domains can be created only if principal has CREATE permission to parent Domain.
+	      (if parent is null, voter should be confugrable to abstain (default) or vote to deny
+	   Domains and ResourceRecords can be deleted only if principal has DELETE permission to actual Domain.
+	   findAllDomainsList and findAllResourceRecordsInDomain filter results on READ.
+	   obtainAdministrationPermission needs ROLE_SUPERVISOR.
+	   update needs WRITE permission
+	-->
+   <bean id="domainManagerSecurity" class="net.sf.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
+      <property name="authenticationManager"><ref bean="authenticationManager"/></property>
+      <property name="accessDecisionManager"><ref local="businessAccessDecisionManager"/></property>
+      <property name="afterInvocationManager"><ref local="afterInvocationManager"/></property>
+      <property name="objectDefinitionSource">
+         <value>
+				com.acegitech.dns.domain.DomainManager.createDomain=ACL_DOMAIN_CREATE
+				com.acegitech.dns.domain.DomainManager.createResourceRecord=ACL_RESOURCE_RECORD_CREATE
+				com.acegitech.dns.domain.DomainManager.deleteDomain=ACL_DOMAIN_DELETE
+				com.acegitech.dns.domain.DomainManager.deleteResourceRecord=ACL_RESOURCE_RECORD_DELETE
+				com.acegitech.dns.domain.DomainManager.findAllDomainsLike=ROLE_USER,AFTER_ACL_COLLECTION_READ
+				com.acegitech.dns.domain.DomainManager.findAllResourceRecordsInDomain=ROLE_USER,AFTER_ACL_COLLECTION_READ
+				com.acegitech.dns.domain.DomainManager.obtainAdministrativePermission=ROLE_SUPERVISOR
+				com.acegitech.dns.domain.DomainManager.updateDomain=ACL_DOMAIN_WRITE
+				com.acegitech.dns.domain.DomainManager.updateResourceRecord=ACL_RESOURCE_RECORD_WRITE
+         </value>
+      </property>
+   </bean>
+
+</beans>
